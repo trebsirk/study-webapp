@@ -4,14 +4,13 @@ on:
   push:
     branches:
       - main
-
-on:
   workflow_dispatch:
     inputs:
       environment:
         type: string
         required: false
         default: DEV
+
 jobs:
   deploy:
     runs-on: ubuntu-latest

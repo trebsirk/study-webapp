@@ -28,5 +28,5 @@ jobs:
     - name: Echo ENVIRONMENT_STAGE
       run: echo "ENVIRONMENT_STAGE=${{ vars.ENVIRONMENT_STAGE }}"
     - name: Echo APP_NAME
-      run: echo "APP_NAME=${{ env.APP_NAME }}"
+      run: echo "APP_NAME=$APP_NAME"
 

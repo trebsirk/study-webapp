@@ -19,7 +19,7 @@ jobs:
       MY_APP_NAME: ${{ vars.APP_NAME }}
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Echo ENVIRONMENT
       run: echo "ENVIRONMENT=${{ env.ENVIRONMENT }}"

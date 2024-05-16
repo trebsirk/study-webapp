@@ -1,20 +1,19 @@
-name: Test ENV
+name: Test Environment Variables
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, dev]
   workflow_dispatch:
     inputs:
       environment:
         type: string
         required: false
-        default: DEV
+        default: dev
 
 jobs:
-  deploy:
+  echo:
     runs-on: ubuntu-latest
-
+    environment: ${{ github.ref == 'refs/heads/dev' && 'dev' || github.ref == 'refs/heads/test' && 'test' || 'prod' }}
     env:
       ENVIRONMENT: ${{ github.event.inputs.environment }}
 
@@ -22,5 +21,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Test ENV
+    - name: Echo ENVIRONMENT
       run: echo "ENVIRONMENT=${{ env.ENVIRONMENT }}"
+    - name: Echo ENV_CONTEXT_VAR
+      run: echo "ENV_CONTEXT_VAR=${{ vars.ENV_CONTEXT_VAR }}"
+    - name: Echo ENVIRONMENT_STAGE
+      run: echo "ENVIRONMENT_STAGE=${{ vars.ENVIRONMENT_STAGE }}"
+    - name: Echo APP_NAME
+      run: echo "APP_NAME=${{ env.APP_NAME }}"
+

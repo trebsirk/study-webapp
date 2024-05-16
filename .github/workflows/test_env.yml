@@ -1,4 +1,4 @@
-name: Deploy to Environment
+name: Test ENV
 
 on:
   push:
@@ -17,4 +17,4 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Test ENV
-      run: echo "${{ env.ENVIRONMENT | upper }}"
+      run: echo "ENVIRONMENT=${{ env.ENVIRONMENT }}"

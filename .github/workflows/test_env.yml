@@ -7,23 +7,23 @@ on:
     inputs:
       environment:
         type: string
-        required: false
+        required: true
         default: dev
 
 jobs:
   echo:
     runs-on: ubuntu-latest
-    environment: dev #${{ github.ref == 'refs/heads/dev' && 'dev' || github.ref == 'refs/heads/test' && 'test' || 'prod' }}
+    environment: ${{ github.ref == 'refs/heads/dev' && 'dev' || github.ref == 'refs/heads/test' && 'test' || 'prod' }}
     env:
-      ENVIRONMENT: ${{ github.event.inputs.environment }}
+      ENVIRONMENT_FROM_INPUT: ${{ github.event.inputs.environment }}
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Echo ENVIRONMENT
-      run: echo "ENVIRONMENT=${{ env.ENVIRONMENT }}"
+    - name: Echo ENVIRONMENT_FROM_INPUT
+      run: echo "ENVIRONMENT_FROM_INPUT=${{ env.ENVIRONMENT_FROM_INPUT }}"
     - name: Echo APP_NAME
       run: echo "APP_NAME=$APP_NAME"
     - name: Echo var.APP_NAME
-      run: echo "APP_NAME=${{ env.APP_NAME }}"
+      run: echo "APP_NAME=${{ vars.APP_NAME }}"

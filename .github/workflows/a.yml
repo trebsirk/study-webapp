@@ -1,0 +1,23 @@
+name: Deploy to Environment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      ENVIRONMENT: ${{ github.event.inputs.environment }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Test ENV
+      run: |
+        # echo "${{ secrets[${{ env.ENVIRONMENT | upper }}_PRIVATE_KEY] }}" > private-key.pem
+        # chmod 600 private-key.pem
+        echo "${{ env.ENVIRONMENT | upper }}"

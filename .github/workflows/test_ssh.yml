@@ -1,17 +1,25 @@
 name: Test SSH Connection
 
-on: [push]
+on:
+  push:
+    branches: [test]
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: string
+        required: true
+        default: dev
 
 jobs:
   test-ssh-connection:
     runs-on: ubuntu-latest
-
+    environment: ${{ github.ref == 'refs/heads/dev' && 'dev' || github.ref == 'refs/heads/test' && 'test' || 'prod' }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
       
     - name: Set up SSH
-      run: echo "$PRIVATE_KEY" > private-key.pem && chmod 600 private-key.pem
+      run: echo "$PRIVATE_KEY_EC2" > private-key.pem && chmod 600 private-key.pem
 
     - name: Run SSH test
       run: |

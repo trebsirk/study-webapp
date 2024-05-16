@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
+        description: 'Environment to deploy to (e.g., dev, test, prod)'
         type: string
         required: true
         default: dev
@@ -13,17 +14,17 @@ on:
 jobs:
   echo:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/dev' && 'dev' || github.ref == 'refs/heads/test' && 'test' || 'prod' }}
+    environment: ${{ github.event.inputs.environment || github.ref == 'refs/heads/dev' && 'dev' || github.ref == 'refs/heads/test' && 'test' || 'prod' }}
     env:
-      ENVIRONMENT_FROM_INPUT: ${{ github.event.inputs.environment }}
-
+      MY_APP_NAME: ${{ vars.APP_NAME }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Echo ENVIRONMENT_FROM_INPUT
-      run: echo "ENVIRONMENT_FROM_INPUT=${{ env.ENVIRONMENT_FROM_INPUT }}"
-    - name: Echo APP_NAME
-      run: echo "APP_NAME=$APP_NAME"
+    - name: Echo ENVIRONMENT
+      run: echo "ENVIRONMENT=${{ env.ENVIRONMENT }}"
     - name: Echo var.APP_NAME
       run: echo "APP_NAME=${{ vars.APP_NAME }}"
+    - name: Echo MY_APP_NAME
+      run: echo "MY_APP_NAME=$MY_APP_NAME"
+    

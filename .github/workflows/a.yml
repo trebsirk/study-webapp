@@ -17,7 +17,4 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Test ENV
-      run: |
-        # echo "${{ secrets[${{ env.ENVIRONMENT | upper }}_PRIVATE_KEY] }}" > private-key.pem
-        # chmod 600 private-key.pem
-        echo "${{ env.ENVIRONMENT | upper }}"
+      run: echo "${{ env.ENVIRONMENT | upper }}"

@@ -19,16 +19,18 @@ jobs:
         with:
             terraform_version: latest
         
-      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Set up Keys
+        run: |
+            mkdir ~/.ssh
+            echo "${{ secrets.PRIVATE_KEY_EC2 }}" > ~/.ssh/study
+            chmod 600 ~/.ssh/study
+            echo "${{ secrets.PUBLIC_KEY_EC2 }}" > ~/.ssh/study.pub
+            chmod 400 ~/.ssh/study.pub
+            
       - name: Provision Infra with Terraform 
         run: ./provision.sh
 
-      - name: Get Key
-        run: |
-          mkdir ~/.ssh
-          echo "${{ secrets.PRIVATE_KEY_EC2 }}" > ~/.ssh/study
-          chmod 600 ~/.ssh/study
-  
+      
       - name: 
         run: ./test-ssh-to-ec2.sh
 
